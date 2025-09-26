@@ -1,0 +1,23 @@
+version: '3.8'
+services:
+  ms-menu-api:
+    build: .
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db-menu
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db-menu:5432/menudb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+
+  db-menu:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: menudb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
